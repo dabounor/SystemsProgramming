@@ -1,0 +1,160 @@
+enter main
+&argc=ff8a5690 argv=ff8a5724 env=ff8a5738
+&a=ff8a564c &b=ff8a5650 &c=ff8a5654
+Argc: 0, Argv[0]: a.out Address: ff8a5724
+Argc: 1, Argv[1]: one Address: ff8a5728
+Argc: 2, Argv[2]: two Address: ff8a572c
+Argc: 3, Argv[3]: three Address: ff8a5730
+enter A
+Address &d: ff8a5600
+Address &e: ff8a5604
+Address &f: ff8a5608
+enter B
+Address &g: ff8a55d0
+Address &h: ff8a55d4
+Address &i: ff8a55d8
+enter C
+Address &u: ff8a5594
+Address &v: ff8a5598
+Address &w: ff8a559c
+Address &i: ff8a55a0
+Address &p: ff8a55a4
+
+Stack Frame Link List: 
+ff8a55b8
+ff8a55e8
+ff8a5618
+ff8a5678
+
+P: ff8a55a4
+P: ff8a55a8
+P: ff8a55ac
+P: ff8a55b0
+P: ff8a55b4
+P: ff8a55b8
+P: ff8a55bc
+P: ff8a55c0
+P: ff8a55c4
+P: ff8a55c8
+P: ff8a55cc
+P: ff8a55d0
+P: ff8a55d4
+P: ff8a55d8
+P: ff8a55dc
+P: ff8a55e0
+P: ff8a55e4
+P: ff8a55e8
+P: ff8a55ec
+P: ff8a55f0
+P: ff8a55f4
+P: ff8a55f8
+P: ff8a55fc
+P: ff8a5600
+P: ff8a5604
+P: ff8a5608
+P: ff8a560c
+P: ff8a5610
+P: ff8a5614
+P: ff8a5618
+P: ff8a561c
+P: ff8a5620
+P: ff8a5624
+P: ff8a5628
+P: ff8a562c
+P: ff8a5630
+P: ff8a5634
+P: ff8a5638
+P: ff8a563c
+P: ff8a5640
+P: ff8a5644
+P: ff8a5648
+P: ff8a564c
+P: ff8a5650
+P: ff8a5654
+P: ff8a5658
+P: ff8a565c
+P: ff8a5660
+P: ff8a5664
+P: ff8a5668
+P: ff8a566c
+P: ff8a5670
+P: ff8a5674
+P: ff8a5678
+P: ff8a567c
+P: ff8a5680
+P: ff8a5684
+P: ff8a5688
+P: ff8a568c
+P: ff8a5690
+P: ff8a5694
+P: ff8a5698
+P: ff8a569c
+P: ff8a56a0
+P: ff8a56a4
+P: ff8a56a8
+P: ff8a56ac
+P: ff8a56b0
+P: ff8a56b4
+P: ff8a56b8
+P: ff8a56bc
+P: ff8a56c0
+P: ff8a56c4
+P: ff8a56c8
+P: ff8a56cc
+P: ff8a56d0
+P: ff8a56d4
+P: ff8a56d8
+P: ff8a56dc
+P: ff8a56e0
+P: ff8a56e4
+P: ff8a56e8
+P: ff8a56ec
+P: ff8a56f0
+P: ff8a56f4
+P: ff8a56f8
+P: ff8a56fc
+P: ff8a5700
+P: ff8a5704
+P: ff8a5708
+P: ff8a570c
+P: ff8a5710
+P: ff8a5714
+P: ff8a5718
+P: ff8a571c
+P: ff8a5720
+P: ff8a5724
+P: ff8a5728
+P: ff8a572c
+P: ff8a5730
+P: ff8a5734
+P: ff8a5738
+P: ff8a573c
+P: ff8a5740
+P: ff8a5744
+P: ff8a5748
+P: ff8a574c
+P: ff8a5750
+P: ff8a5754
+P: ff8a5758
+P: ff8a575c
+P: ff8a5760
+P: ff8a5764
+P: ff8a5768
+P: ff8a576c
+P: ff8a5770
+P: ff8a5774
+P: ff8a5778
+P: ff8a577c
+P: ff8a5780
+P: ff8a5784
+P: ff8a5788
+P: ff8a578c
+P: ff8a5790
+P: ff8a5794
+P: ff8a5798
+P: ff8a579c
+P: ff8a57a0
+P: ff8a57a4
+exit B
+exit A
+exit main

@@ -1,0 +1,113 @@
+enter main
+&argc=ffb05990 argv=ffb05a24 env=ffb05a38
+&a=ffb0594c &b=ffb05950 &c=ffb05954
+Argc: 4, Argv[0]: ./a.out
+Argc: 4, Argv[1]: one
+Argc: 4, Argv[2]: two
+Argc: 4, Argv[3]: three
+enter A
+enter B
+enter C
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+ffb058b8
+exit B
+exit A
+exit main

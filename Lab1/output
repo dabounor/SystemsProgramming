@@ -1,0 +1,156 @@
+enter main
+&argc=ff9c3790 argv=ff9c3824 env=ff9c382c
+&a=ff9c374c &b=ff9c3750 &c=ff9c3754
+Argc: 0, Argv[0]: ./a.out
+enter A
+Address &d: ff9c3700
+Address &e: ff9c3704
+Address &f: ff9c3708
+enter B
+Address &g: ff9c36d0
+Address &h: ff9c36d4
+Address &i: ff9c36d8
+enter C
+Address &u: ff9c3694
+Address &v: ff9c3698
+Address &w: ff9c369c
+Address &i: ff9c36a0
+Address &p: ff9c36a4
+
+Stack Frame Link List: 
+ff9c36b8
+ff9c36e8
+ff9c3718
+ff9c3778
+
+P: ff9c36a4
+P: 1
+P: e939ac00
+P: ff9c3790
+P: 56610fcc
+P: ff9c36e8
+P: 5660f84e
+P: 7
+P: 8
+P: ff9c3718
+P: 5660f7c4
+P: 7
+P: 8
+P: 9
+P: e939ac00
+P: ff9c3790
+P: 56610fcc
+P: ff9c3718
+P: 5660f78c
+P: 4
+P: 5
+P: ff9c3778
+P: 5660f702
+P: 4
+P: 5
+P: 6
+P: e939ac00
+P: ff9c3790
+P: 56610fcc
+P: ff9c3778
+P: 5660f6c0
+P: 1
+P: 2
+P: 0
+P: ff9c52db
+P: 9
+P: ff9c52db
+P: ff9c382c
+P: ff9c3824
+P: f7f29000
+P: f7f29000
+P: 0
+P: 1
+P: 2
+P: 3
+P: 1
+P: e939ac00
+P: 1
+P: ff9c3824
+P: ff9c382c
+P: ff9c3790
+P: 0
+P: f7f29000
+P: 0
+P: f7d69e81
+P: f7f29000
+P: f7f29000
+P: 0
+P: f7d69e81
+P: 1
+P: ff9c3824
+P: ff9c382c
+P: ff9c37b4
+P: 1
+P: ff9c3824
+P: f7f29000
+P: f7f5a75a
+P: ff9c3820
+P: 0
+P: f7f29000
+P: 0
+P: 0
+P: 666db12a
+P: f33e173a
+P: 0
+P: 0
+P: 0
+P: 40
+P: f7f72024
+P: 0
+P: 0
+P: f7f5a869
+P: 56610fcc
+P: 1
+P: 5660f4a0
+P: 0
+P: 5660f4d1
+P: 5660f5dd
+P: 1
+P: ff9c3824
+P: 5660fa20
+P: 5660fa80
+P: f7f5a9b0
+P: ff9c381c
+P: f7f72940
+P: 1
+P: ff9c52db
+P: 0
+P: ff9c52e3
+P: ff9c52f9
+P: ff9c58e5
+P: ff9c5907
+P: ff9c5928
+P: ff9c5939
+P: ff9c5949
+P: ff9c5954
+P: ff9c5983
+P: ff9c5997
+P: ff9c59aa
+P: ff9c59d3
+P: ff9c5a1b
+P: ff9c5a2a
+P: ff9c5a53
+P: ff9c5a65
+P: ff9c5a86
+P: ff9c5adc
+P: ff9c5b21
+P: ff9c5b51
+P: ff9c5b66
+P: ff9c5b7d
+P: ff9c5b92
+P: ff9c5ba5
+P: ff9c5bba
+P: ff9c5c1f
+P: ff9c5c4c
+P: ff9c5c6d
+P: ff9c5c89
+P: ff9c5c9c
+exit B
+exit A
+exit main
