@@ -31,10 +31,18 @@ char *cmd[] = {"mkdir", "rmdir", "ls", "cd", "pwd", "creat", "rm", "reload",
                     "save", "menu", "quit", NULL};
     //command table that contains a bunch of options for us to check 
 
+
+//Function prototypes
+int findCmd(char *command);
+void initialize(); //This will create root/file system
+
 int main()
 {
     //Main logic
+    initialize();
     printf("Unix/Linux File System Tree Simulator.\n\n");
+    while(1)
+    {
     printf("~$: ");
     fgets(line, 128, stdin); //Gets 128 lines from stdin and store into global line
     line[strlen(line)-1] = 0; //Gets rid of the new character line
@@ -47,9 +55,28 @@ int main()
     {
         printf("Command not found.\n");
     }
+    //Switch statement for corresponding command and its function
 
-    printf("%d\n", myCmd);
-
+    char *cmd[] = {"mkdir", "rmdir", "ls", "cd", "pwd", "creat", "rm", "reload",
+                    "save", "menu", "quit", NULL};
+    switch(myCmd)
+    {
+        case 0: printf("mkdir\n"); break;
+        case 1: printf("rmdir\n"); break;
+        case 2: printf("ls\n"); break;
+        case 3: printf("cd\n"); break;
+        case 4: printf("pwd\n"); break;
+        case 5: printf("creat\n"); break;
+        case 6: printf("rm\n"); break;
+        case 7: printf("reload\n"); break;
+        case 8: printf("save\n"); break;
+        case 9: printf("menu\n"); break;
+        case 10: printf("quit\n"); break;
+        default: break;
+    }
+    if (myCmd == 10)
+        break;
+    }
     return 0;
 }
 
@@ -64,4 +91,9 @@ int findCmd(char *command)
     }
 
     return -1; //Was not in the table, cmd[i] reached null.
+}
+
+void initialize()
+{
+    return 0;
 }
