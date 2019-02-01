@@ -11,13 +11,13 @@ Description: Unix file system simulation
 
 //global variables
 struct node *root; //root node
-struct node *pwd; //print working directory
+//struct node *pwd; //print working directory //turned into a function
 struct node *cwd; //current working directory
 struct node *start;
 struct node *end;
 struct node *tempNode;
 
-FILE *fname;
+FILE *fp;
 
 char line[128];
 char command[16];
@@ -43,13 +43,39 @@ struct node
 char *cmd[] = {"mkdir", "rmdir", "ls", "cd", "pwd", "creat", "rm", "reload",
                     "save", "menu", "quit", NULL};
     //command table that contains a bunch of options for us to check 
+
 //int (*fptr[ ])(char *)={(int (*)())mkdir,rmdir,ls,cd,pwd,creat,rm,reload,save,menu,quit};
 //function names that correspond to the indice that cmd function produces (function calls)
 
 //Function prototypes
+int mkdir(char *pathname);
+int rmdir(char *pathname);
 int findCmd(char *command);
-void initialize(); //This will create root/file system
-struct node * makeNode(char *name, char newtype) //make a node when called
+int ls(char *pathname);
+struct node * makeNode(char *name, char newtype);
+struct node * nodePath(char *pathname);
+struct node *searchChild(struct node *p, char *name);
+int removeChild(struct node *n, struct node *child);
+int menu(char *filename);
+int save(char *filename);
+void saveHelp(struct node*pFam, FILE *saveFile);
+int reload(char *filename);
+int rm(char *pathname);
+int create(char *pathname);
+int cd(char *pathname);
+void pwd(char *pathname);
+int insertChildNode(struct node *n, struct node * child);
+char *display_pwd(struct node *p);
+int quit(char *filename);
+void initalize();
+int tokenize(char *pathname);
+void dbname(char *pathname);
+
+
+
+
+
+
 
 
 
@@ -72,28 +98,90 @@ int main()
     {
         printf("Command not found.\n");
     }
+    else 
+    {
+    //int r = fptr[myCmd](pathname);
     //Switch statement for corresponding command and its function
 
     //int result = fptr[myCmd](pathname);
     switch(myCmd)
     {
-        case 0: printf("mkdir\n"); break;
-        case 1: printf("rmdir\n"); break;
-        case 2: printf("ls\n"); break;
-        case 3: printf("cd\n"); break;
-        case 4: printf("pwd\n"); break;
-        case 5: printf("creat\n"); break;
-        case 6: printf("rm\n"); break;
-        case 7: printf("reload\n"); break;
-        case 8: printf("save\n"); break;
-        case 9: printf("menu\n"); break;
-        case 10: printf("quit\n"); break;
+        case 0: mkdir(pathname);
+        case 1: rmdir(pathname);
+        case 2: ls(pathname);
+        case 3: cd(pathname);
+        case 4: pwd(pathname);
+        case 5: create(pathname);
+        case 6: rm(pathname);
+        case 7: reload(fp);
+        case 8: save(fp);
+        case 9: menu(fp);
+        case 10: quit(fp);
         default: break;
     }
     if (myCmd == 10)
         break;
     }
+    }
     return 0;
+}
+
+int mkdir(char *pathname)
+{
+    dbname(pathname);
+    struct node *temp = nodePath(dname);
+    if (temp != 0)
+    {
+        if(temp->type == 'D')
+        {
+            if(!searchChild(temp,bname)){
+                insertChildNode(temp,makeNode(bname,'D'));
+            }
+            else
+            {
+                printf("‘%s’: That's a directory\n",pathname);
+            }
+        }
+        else
+        {
+            printf("‘%s’: Not a directory\n",pathname);
+        }
+    }
+    else
+    {
+        printf("‘%s’: Error\n",pathname);
+    }
+    strcpy(dname,"");
+    strcpy(bname,"");
+}
+
+int rmdir(char *pathname)
+{
+    dbname(pathname);
+    struct node *temp = nodePath(pathname);
+    if (temp != 0)
+    {
+        if(temp->type == 'D')
+        {
+            if(!(temp->childPtr)){
+                removeChild(nodePath(dname),temp);
+            }
+            else
+            {
+                printf("Error: rmdir: cannot remove directory ‘%s’: Directory is not empty\n",pathname);
+            }
+        }
+        else
+        {
+            printf("Error: rmdir: cannot remove directory ‘%s’: Not a directory\n",pathname);
+        }
+    }
+    else
+    {
+        printf("Error: rmdir: cannot remove directory ‘%s’: No such file or directory\n",pathname);
+    }
+    strcpy(dname,"");
+    strcpy(bname,"");
 }
 
 int findCmd(char *command)
@@ -108,6 +196,23 @@ int findCmd(char *command)
 
     return -1; //Was not in the table, cmd[i] reached null.
 }
+
+int ls(char *pathname)
+{
+    struct node* temp = nodePath(pathname);
+    if (temp){
+        temp = temp->childPtr;
+    }
+    else{
+        printf("‘%s’: No such file or directory\n",pathname);
+    }
+    while(temp){
+        printf("\nFileType %c FileName %s ",temp->type,temp->name);
+        temp = temp->siblingPtr;
+    }
+    putc('\n',stdout);
+}
+
 
 struct node * makeNode(char *name, char newtype)
 {
@@ -152,6 +257,40 @@ struct node * nodePath(char *pathname)
     return p;
 }
 
+struct node *searchChild(struct node *p, char *name)
+{
+    if(!strcmp(name,"..")) //go back to parent
+    {
+        return p->parentPtr;
+    }
+    struct node *p2=p->childPtr;
+    while(p2 != NULL)
+    {
+        if(!strcmp(p2->name, name))
+        {
+            return p2;
+        }
+        p2=p2->siblingPtr;
+    }
+    return 0;
+}
+
+int removeChild(struct node *n, struct node *child)
+{
+    struct node *p=n->childPtr;
+    struct node *prev = n;
+
+    if(p!=child)
+    {
+        while(p!=child)
+        {
+            prev=p;
+            p=p->siblingPtr;
+        }
+        prev->siblingPtr=p->siblingPtr;
+        free(p);
+    }
+}
 int menu(char *filename)
 {
     //From KC wangs book
@@ -168,18 +307,100 @@ int menu(char *filename)
     printf("quit : save the file system tree, then terminate the program.\n");
 }
 
-int creat(char *pathname)
+int save(char *filename)
+{
+    FILE *fp = fopen(filename, "w+"); // fopen a FILE stream for WRITE
+    if (fp != NULL)
+    {
+        saveHelp(root,fp);
+        fclose(fp); // close FILE stream when done
+    }
+}
+void saveHelp(struct node*pFam, FILE *saveFile)
+{
+    if(pFam)
+    {
+        fprintf(saveFile, "%c %s\n", pFam->type, display_pwd(pFam)); // print a line to file
+        saveHelp(pFam->childPtr,saveFile);
+        saveHelp(pFam->siblingPtr,saveFile);
+    }
+}
+
+int reload(char *filename)
+{
+    FILE *fp = fopen(filename, "r+");
+    if(fp != NULL){
+        char newType, newPath[100];
+        fscanf(fp," %c %s",&newType, newPath);
+        if(!strcmp(newPath,"/"));
+        {
+            while(!feof(fp))
+            {
+                fscanf(fp," %c %s",&newType, newPath);
+                if(newType == 'D')
+                {
+                    mkdir(newPath);
+                }
+                else if(newType == 'F')
+                {
+                    create(newPath);
+                }
+                newType = 0;
+            }
+        }
+    }
+}
+
+int rm(char *pathname)
+{
+    dbname(pathname);
+    struct node *temp = nodePath(pathname);
+    if (temp != 0)
+    {
+        if(temp->type == 'F')
+        {
+            removeChild(nodePath(dname),temp);
+        }
+        else
+        {
+            printf("‘%s’: Not a file\n",pathname);
+        }
+    }
+    else
+    {
+        printf("‘%s’: No such file or directory\n",pathname);
+    }
+    strcpy(dname,"");
+    strcpy(bname,"");
+}
+
+int create(char *pathname)
 {
     dbname(pathname);
     struct node *temp = nodePath(dname);
-    if(temp != 0)
+    if (temp != 0)
     {
-        //directory first
         if(temp->type == 'D')
         {
-            if(!)
+            if(!searchChild(temp,bname)){
+                insertChildNode(temp,makeNode(bname,'F'));
+            }
+            else
+            {
+                printf("‘%s’: File exists\n",pathname);
+            }
+        }
+        else
+        {
+            printf("‘%s’: Not a directory\n",pathname);
         }
     }
+    else
+    {
+        printf("‘%s’: No such file or directory\n",pathname);
+    }
+    strcpy(dname,"");
+    strcpy(bname,"");
 }
 
 int cd(char *pathname)
@@ -199,9 +420,31 @@ int cd(char *pathname)
     }
 }
 
-int pwd(char *pathname)
+void pwd(char *pathname)
 {
     printf("%s\n", display_pwd(cwd));
+}
+
+int insertChildNode(struct node *n, struct node * child)
+{
+    struct node *p=n;
+    if(n->childPtr == NULL)
+    {
+        n->childPtr=child;
+
+    }
+
+    else
+    {
+        p=n->childPtr;
+        while(p->siblingPtr != NULL)
+        {
+            p=p->siblingPtr;
+        }
+        p->siblingPtr=child;
+    }
+    child->parentPtr=n;
+    
 }
 
 char *display_pwd(struct node *p)
@@ -239,14 +482,26 @@ void initialize()
     cwd = root; //Once tree is initalized you must begin from root
 }
 
-int tokenize(char *pathname) //Help code from KCWANG divides into strings based on /
+// int tokenize(char *pathname) //Help code from KCWANG divides into strings based on /
+// {
+// char *s;
+// s = strtok(path, "/");  // first call to strtok()
+// while(s){      
+// printf("%s ", s);
+// s = strtok(0, "/");  // call strtok() until it returns NULL
+//     }
+// }
+
+int tokenize(char *pathname)
 {
-char *s;
-s = strtok(path, "/");  // first call to strtok()
-while(s){      
-printf(“%s “, s);
-s = strtok(0, "/");  // call strtok() until it returns NULL
+    int num=0;
+    name[num]=strtok(pathname, "/0");
+    while(name[num]!=NULL)
+    {
+        num++;
+        name[num]=strtok(NULL,"/0");
     }
+    return num;
 }
 
 void dbname(char *pathname)
