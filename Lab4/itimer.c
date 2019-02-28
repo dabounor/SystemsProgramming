@@ -1,44 +1,96 @@
-/* itimer.c program */
+#include "type.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <signal.h>
-#include <sys/time.h>
-
-/*************************
- struct timeval {
-    time_t      tv_sec;         // seconds 
-    suseconds_t tv_usec;        // microseconds 
- };
- struct itimerval {
-    struct timeval it_interval; // Interval of periodic timer 
-    struct timeval it_value;    // Time until next expiration
- };
-*********************/
-
-int hh, mm, ss, tick;
-
-void timer_handler (int sig)
+void *func(void *arg) 
 {
-   printf("timer_handler: signal=%d\n", sig);
+  int j, row, temp, mysum = 0;
+  pthread_t tid = pthread_self(); 
+  row = (int)arg;                
+  printf("thread %d computes sum of row %d : ", row, row);
+
+  for (j = 0; j < N; j++) // compute sum of A[row]in global sum[row]
+    mysum += A[row][j];
+  pthread_mutex_lock(&m);
+  temp = total;  // get total
+  temp += mysum; // add mysum to temp
+
+  sleep(1); 
+
+  total = temp; 
+  pthread_mutex_unlock(&m);
+
+  pthread_exit((void *)0); // thread exit: 0=normal termination
 }
 
-int main ()
-{
- struct itimerval itimer;
- tick = hh = mm = ss = 0;
- 
- signal(SIGALRM, &timer_handler);
- 
- /* Configure the timer to expire after 1 sec */
- timer.it_value.tv_sec  = 1;
- timer.it_value.tv_usec = 0;
+int print() {
+  int i, j;
+  for (i = 0; i < M; i++) {
+    for (j = 0; j < N; j++) {
+      printf("%4d ", A[i][j]);
+    }
+    printf("\n");
+  }
+  return 0;
+}
 
- /* and every 1 sec after that */
- timer.it_interval.tv_sec  = 1;
- timer.it_interval.tv_usec = 0;
+int initMatrix() {
+  printf("initialize A matrix\n");
+  for (int i = 0; i < M; i++)
+    for (int j = 0; j < N; j++)
+      A[i][j] = i + j + 1;
+  return 0;
+}
 
- setitimer (ITIMER_REAL, &timer, NULL);
+int matrixSumT() {
+  total = 0;
+  pthread_mutex_init(&m, NULL);
+  struct timeval tStart, tStop;
+  pthread_t thread[M]; // thread IDs
+  int status;
 
- while (1);
+  printf("\nThreaded:\n");
+  gettimeofday(&tStart, NULL);
+  printf("Start timer at %ld s %ld us\n", tStart.tv_sec, tStart.tv_usec);
+
+  printf("create %d threads\n", M);
+  for (int i = 0; i < M; i++)
+    pthread_create(&thread[i], NULL, func, (void *)(long)i);
+
+  printf("try to join with threads\n");
+  for (int i = 0; i < M; i++) {
+    pthread_join(thread[i], (void *)&status);
+    printf("joined with thread %d : status=%d\n", i, status);
+  }
+
+  printf("compute and print total : ");
+  for (int i = 0; i < M; i++)
+    total += sum[i];
+  printf("total = %d\n", total);
+
+  gettimeofday(&tStop, NULL);
+  printf("Stop timer at %ld s %ld us\n", tStop.tv_sec, tStop.tv_usec);
+  printf("Time Elapsed %ld s %ld us\n", tStop.tv_sec - tStart.tv_sec,
+         tStop.tv_usec - tStart.tv_usec);
+
+  return total;
+}
+
+int matrixSumS() {
+  total = 0;
+  struct timeval tStart, tStop;
+  printf("\nSequential:\n");
+  gettimeofday(&tStart, NULL);
+  printf("Start timer at %ld s %ld us\n", tStart.tv_sec, tStart.tv_usec);
+
+  printf("compute and print total : ");
+  for (int i = 0; i < M; i++)
+    for (int j = 0; j < N; j++)
+      total += A[i][j];
+  printf("total = %d\n", total);
+
+  gettimeofday(&tStop, NULL);
+  printf("Stop timer at %ld s %ld us\n", tStop.tv_sec, tStop.tv_usec);
+  printf("Time Elapsed %ld s %ld us\n", tStop.tv_sec - tStart.tv_sec,
+         tStop.tv_usec - tStart.tv_usec);
+
+  return total;
 }
